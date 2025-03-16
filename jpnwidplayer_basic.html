@@ -6,18 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Kanit', sans-serif;
-    }
-    /* Fondo del widget (body) transparente para adaptarse a cualquier web */
-    body {
-      background: transparent;
-    }
-    /* Contenedor principal del player */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+    body { background: transparent; }
     .player {
       width: 100%;
       max-width: 600px;
@@ -30,7 +20,6 @@
       position: relative;
       margin: auto;
     }
-    /* Logo clickeable dentro del player */
     .logo-link {
       position: absolute;
       top: 12px;
@@ -39,11 +28,7 @@
       color: white;
       text-decoration: none;
     }
-    .logo-link svg {
-      width: 58px;
-      height: 20px;
-    }
-    /* Parte superior: fondo con gradiente y visualizador de ondas */
+    .logo-link svg { width: 58px; height: 20px; }
     .player-top {
       position: relative;
       overflow: hidden;
@@ -53,7 +38,6 @@
       padding: 24px;
       background: linear-gradient(45deg, rgba(110,26,255,0.8), rgba(255,153,0,0.8));
     }
-    /* Canvas para el visualizador de ondas */
     #waveCanvas {
       position: absolute;
       top: 0;
@@ -63,11 +47,7 @@
       z-index: 0;
       pointer-events: none;
     }
-    /* Contenido (carátula e info) sobre el canvas */
-    .cover, .info {
-      position: relative;
-      z-index: 2;
-    }
+    .cover, .info { position: relative; z-index: 2; }
     .cover {
       width: 140px;
       height: 140px;
@@ -80,22 +60,12 @@
       align-items: center;
       justify-content: center;
     }
-    /* Ocultar imagen predeterminada si no carga la carátula */
-    #coverArt[src=""] {
-      display: none;
-    }
-    .cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    /* Capa de carga sobre la carátula */
+    #coverArt[src=""] { display: none; }
+    .cover img { width: 100%; height: 100%; object-fit: cover; }
     .loading-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.5);
       z-index: 3;
       display: flex;
@@ -103,11 +73,7 @@
       justify-content: center;
       transition: opacity 1s ease;
     }
-    .loading-overlay.fade-out {
-      opacity: 0;
-      visibility: hidden;
-    }
-    /* SVG de carga: flechas rotatorias en sentido contrario a las manecillas del reloj */
+    .loading-overlay.fade-out { opacity: 0; visibility: hidden; }
     .i-arrows-rotate {
       width: 40px;
       height: 40px;
@@ -119,39 +85,19 @@
       color: white;
       animation: rotate 3s linear infinite;
     }
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(-360deg); }
-    }
-    /* Info de la canción */
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
     .info {
       flex: 1;
       color: #fff;
       min-width: 200px;
       margin-top: 16px;
     }
-    .song-title {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .song-artist {
-      font-size: 1rem;
-      opacity: 0.9;
-      margin-bottom: 4px;
-    }
-    .song-album-year {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-    /* Inicialmente, los textos indican "Recibiendo información..." en cursiva y con opacidad reducida */
+    .song-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 8px; }
+    .song-artist { font-size: 1rem; opacity: 0.9; margin-bottom: 4px; }
+    .song-album-year { font-size: 0.9rem; opacity: 0.8; }
     .info .song-title,
     .info .song-artist,
-    .info .song-album-year {
-      font-style: italic;
-      opacity: 0.7;
-    }
-    /* Parte inferior: controles de Play/Pause y Volumen */
+    .info .song-album-year { font-style: italic; opacity: 0.7; }
     .player-bottom {
       background: #fff;
       display: flex;
@@ -159,7 +105,6 @@
       justify-content: space-around;
       padding: 12px;
     }
-    /* Botón Play/Pause con colores pastel */
     .play-btn {
       width: 44px;
       height: 44px;
@@ -172,15 +117,8 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .play-btn:hover {
-      background: #b3c9ff;
-    }
-    .play-btn svg {
-      width: 24px;
-      height: 24px;
-      fill: #333;
-    }
-    /* Slider de Volumen personalizado */
+    .play-btn:hover { background: #b3c9ff; }
+    .play-btn svg { width: 24px; height: 24px; fill: #333; }
     .volume-slider {
       flex: 1;
       max-width: 200px;
@@ -192,9 +130,7 @@
       background: transparent;
       cursor: pointer;
     }
-    .volume-slider input[type="range"]:focus {
-      outline: none;
-    }
+    .volume-slider input[type="range"]:focus { outline: none; }
     .volume-slider input[type="range"]::-webkit-slider-runnable-track {
       width: 100%;
       height: 8px;
@@ -223,41 +159,26 @@
       background: #a0c4ff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
-    /* Responsividad */
     @media (max-width: 480px) {
-      .player-top {
-        justify-content: center;
-      }
-      .cover {
-        margin-right: 0;
-        margin-bottom: 16px;
-      }
-      .info {
-        text-align: center;
-      }
-      .player-bottom {
-        flex-wrap: wrap;
-      }
-      .volume-slider {
-        margin-top: 8px;
-      }
+      .player-top { justify-content: center; }
+      .cover { margin-right: 0; margin-bottom: 16px; }
+      .info { text-align: center; }
+      .player-bottom { flex-wrap: wrap; }
+      .volume-slider { margin-top: 8px; }
     }
   </style>
 </head>
 <body>
   <div class="player">
-    <!-- Logo clickeable dentro del player -->
     <a href="https://japanisu.com" target="_blank" class="logo-link">
       <svg fill="currentColor" viewBox="0 0 58 20" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 9a1 1 0 0 1-1-6q44-1 50 5Q35 7 6 9m46 2a1 1 0 0 1 1 6Q9 18 3 12q20 1 49-1"></path>
       </svg>
     </a>
-    <!-- Parte superior: Visualizador, Carátula con overlay e Info -->
     <div class="player-top">
       <canvas id="waveCanvas"></canvas>
       <div class="cover">
         <img id="coverArt" src="" alt="Carátula">
-        <!-- Capa de carga con SVG rotatorio -->
         <div class="loading-overlay" id="loadingOverlay">
           <svg class="i-arrows-rotate" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M21.5 9a10 10 0 0 0-19 0M2 5v4h4m12 6h4v4M2.5 15a10 10 0 0 0 19 0"/>
@@ -270,7 +191,6 @@
         <div class="song-album-year" id="songAlbumYear">Recibiendo información...</div>
       </div>
     </div>
-    <!-- Parte inferior: Controles de Play/Pause y Volumen -->
     <div class="player-bottom">
       <button class="play-btn" id="playBtn">
         <svg id="playIcon" viewBox="0 0 24 24">
@@ -283,27 +203,24 @@
     </div>
   </div>
   
-  <!-- Audio streaming -->
   <audio id="audio" src="https://listen.japanisu.com/listen/japanisu/uradio.mp3" crossOrigin="anonymous"></audio>
   
   <script>
-    let audio = document.getElementById('audio');
-    const playBtn = document.getElementById('playBtn');
-    const playIcon = document.getElementById('playIcon');
-    const volumeRange = document.getElementById('volumeRange');
+    // Cambiamos la declaración a "let" para permitir reasignación
+    let audio = document.getElementById('audio'),
+        playBtn = document.getElementById('playBtn'),
+        playIcon = document.getElementById('playIcon'),
+        volumeRange = document.getElementById('volumeRange'),
+        coverArt = document.getElementById('coverArt'),
+        songTitle = document.getElementById('songTitle'),
+        songArtist = document.getElementById('songArtist'),
+        songAlbumYear = document.getElementById('songAlbumYear'),
+        loadingOverlay = document.getElementById('loadingOverlay'),
+        waveCanvas = document.getElementById('waveCanvas'),
+        waveCtx = waveCanvas.getContext('2d');
     
-    const coverArt = document.getElementById('coverArt');
-    const songTitle = document.getElementById('songTitle');
-    const songArtist = document.getElementById('songArtist');
-    const songAlbumYear = document.getElementById('songAlbumYear');
-    const loadingOverlay = document.getElementById('loadingOverlay');
+    let isPlaying = false, audioCtx, analyser, source, dataArray;
     
-    let isPlaying = false;
-    let audioCtx, analyser, source, dataArray;
-    const waveCanvas = document.getElementById('waveCanvas');
-    const waveCtx = waveCanvas.getContext('2d');
-    
-    /* Función para asignar listeners al audio */
     function attachAudioListeners(aud) {
       aud.addEventListener('play', () => {
         isPlaying = true;
@@ -313,21 +230,19 @@
         isPlaying = false;
         playIcon.innerHTML = '<path d="M8 5v14l11-7z"></path>';
       });
+      aud.addEventListener('loadedmetadata', () => {
+        console.log('Loaded metadata:', aud.duration);
+      });
     }
     attachAudioListeners(audio);
     
-    /* PLAY / PAUSE con reconexión al stream */
     playBtn.addEventListener('click', () => {
       if (isPlaying) {
         audio.pause();
       } else {
-        // Reconectar: crear nuevo elemento de audio para evitar buffers acumulados
         if (audio) {
           audio.pause();
-          if (audioCtx) {
-            audioCtx.close();
-            audioCtx = null;
-          }
+          if (audioCtx) { audioCtx.close(); audioCtx = null; }
         }
         const newAudio = new Audio("https://listen.japanisu.com/listen/japanisu/uradio.mp3");
         newAudio.crossOrigin = "anonymous";
@@ -340,13 +255,9 @@
       }
     });
     
-    /* VOLUMEN */
-    volumeRange.addEventListener('input', () => {
-      if (audio) audio.volume = volumeRange.value;
-    });
+    volumeRange.addEventListener('input', () => { if (audio) audio.volume = volumeRange.value; });
     if (audio) audio.volume = volumeRange.value;
     
-    /* AUDIOCONTEXT + VISUALIZER */
     function initAudioContext() {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       analyser = audioCtx.createAnalyser();
@@ -372,13 +283,9 @@
       const sliceWidth = waveCanvas.width / dataArray.length;
       let x = 0;
       for (let i = 0; i < dataArray.length; i++) {
-        let v = dataArray[i] / 128.0;
-        let y = v * waveCanvas.height / 2;
-        if (i === 0) {
-          waveCtx.moveTo(x, y);
-        } else {
-          waveCtx.lineTo(x, y);
-        }
+        let v = dataArray[i] / 128.0,
+            y = v * waveCanvas.height / 2;
+        i === 0 ? waveCtx.moveTo(x, y) : waveCtx.lineTo(x, y);
         x += sliceWidth;
       }
       waveCtx.lineTo(waveCanvas.width, waveCanvas.height / 2);
@@ -390,7 +297,6 @@
       waveCanvas.height = waveCanvas.clientHeight;
     }
     
-    /* SSE: Actualizar info de la canción */
     function startSSE() {
       const sseUrl = 'https://listen.japanisu.com/api/live/nowplaying/sse?cf_connect={"subs":{"station:japanisu":{}}}';
       const eventSource = new EventSource(sseUrl);
@@ -401,16 +307,26 @@
           const data = JSON.parse(event.data);
           const nowPlaying = data.pub?.data?.np?.now_playing;
           if (!nowPlaying || !nowPlaying.song) return;
-          const song = nowPlaying.song;
-          const album = song.album || 'Álbum';
-          const year  = song.custom_fields?.year || 'Año';
+          const song = nowPlaying.song,
+                album = song.album || 'Álbum',
+                year  = song.custom_fields?.year || 'Año';
           
           songTitle.textContent = song.title || 'Desconocido';
           songArtist.textContent = song.artist || 'Artista';
           songAlbumYear.textContent = `${album} - ${year}`;
           coverArt.src = song.art || '';
           
-          // Restablecer estilos de texto
+          if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+              title: song.title || 'Desconocido',
+              artist: song.artist || 'Artista',
+              album: album,
+              artwork: [
+                { src: song.art || '', sizes: '300x300', type: 'image/jpeg' }
+              ]
+            });
+          }
+          
           songTitle.style.fontStyle = 'normal';
           songTitle.style.opacity = '1';
           songArtist.style.fontStyle = 'normal';
@@ -418,7 +334,6 @@
           songAlbumYear.style.fontStyle = 'normal';
           songAlbumYear.style.opacity = '1';
           
-          // Quitar la capa de carga con fade-out
           if (loadingOverlay) {
             loadingOverlay.classList.add('fade-out');
             setTimeout(() => { loadingOverlay.style.display = 'none'; }, 1000);
