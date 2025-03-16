@@ -4,18 +4,17 @@
   <meta charset="UTF-8" />
   <title>Japanisu Player Widget</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Importar fuente Kanit -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
 
-    * {
+    /* Fondo transparente para que se integre en cualquier web */
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Kanit', sans-serif;
-    }
-    /* Fondo del widget (body) transparente para adaptarse a cualquier web */
-    body {
       background: transparent;
+      font-family: 'Kanit', sans-serif;
+      overflow: hidden;
     }
     /* Contenedor principal del player */
     .player {
@@ -30,7 +29,7 @@
       position: relative;
       margin: auto;
     }
-    /* Logo clickeable dentro del player */
+    /* Logo clickeable dentro del player (esquina superior derecha) */
     .logo-link {
       position: absolute;
       top: 12px;
@@ -43,7 +42,7 @@
       width: 58px;
       height: 20px;
     }
-    /* Parte superior: fondo con gradiente y visualizador de ondas */
+    /* Parte superior: contiene fondo en gradiente, visualizador, carátula e info */
     .player-top {
       position: relative;
       overflow: hidden;
@@ -89,14 +88,14 @@
       height: 100%;
       object-fit: cover;
     }
-    /* Capa de carga sobre la carátula */
+    /* Capa de carga animada sobre la carátula */
     .loading-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 3;
       display: flex;
       align-items: center;
@@ -123,7 +122,7 @@
       from { transform: rotate(0deg); }
       to   { transform: rotate(-360deg); }
     }
-    /* Info de la canción */
+    /* Información de la canción */
     .info {
       flex: 1;
       color: #fff;
@@ -144,7 +143,7 @@
       font-size: 0.9rem;
       opacity: 0.8;
     }
-    /* Inicialmente, los textos indican "Recibiendo información..." en cursiva y con opacidad reducida */
+    /* Inicialmente, los textos muestran "Recibiendo información..." en cursiva y con opacidad reducida */
     .info .song-title,
     .info .song-artist,
     .info .song-album-year {
@@ -417,6 +416,18 @@
           songArtist.style.opacity = '1';
           songAlbumYear.style.fontStyle = 'normal';
           songAlbumYear.style.opacity = '1';
+          
+          // Actualizar Media Session API para que el navegador muestre los metadatos
+          if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+              title: song.title || 'Desconocido',
+              artist: song.artist || 'Artista',
+              album: album,
+              artwork: [
+                { src: song.art || '', sizes: '300x300', type: 'image/jpeg' }
+              ]
+            });
+          }
           
           // Quitar la capa de carga con fade-out
           if (loadingOverlay) {
