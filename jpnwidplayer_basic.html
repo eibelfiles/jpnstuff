@@ -6,11 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
-    body { background: transparent; }
+    
+    /* Aseguramos que el html y body ocupen todo el alto */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Kanit', sans-serif;
+    }
+    
+    body {
+      background: transparent;
+    }
+    
+    /* Se elimina la limitación de ancho y se utiliza el 100% del contenedor */
     .player {
       width: 100%;
-      max-width: 600px;
+      height: 100%;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.1);
@@ -18,8 +36,9 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      margin: auto;
+      /* Se quita margin:auto para que se expanda a todo el contenedor */
     }
+    
     .logo-link {
       position: absolute;
       top: 12px;
@@ -28,7 +47,12 @@
       color: white;
       text-decoration: none;
     }
-    .logo-link svg { width: 58px; height: 20px; }
+    
+    .logo-link svg {
+      width: 58px;
+      height: 20px;
+    }
+    
     .player-top {
       position: relative;
       overflow: hidden;
@@ -38,6 +62,7 @@
       padding: 24px;
       background: linear-gradient(45deg, rgba(110,26,255,0.8), rgba(255,153,0,0.8));
     }
+    
     #waveCanvas {
       position: absolute;
       top: 0;
@@ -47,7 +72,12 @@
       z-index: 0;
       pointer-events: none;
     }
-    .cover, .info { position: relative; z-index: 2; }
+    
+    .cover, .info {
+      position: relative;
+      z-index: 2;
+    }
+    
     .cover {
       width: 140px;
       height: 140px;
@@ -60,12 +90,23 @@
       align-items: center;
       justify-content: center;
     }
-    #coverArt[src=""] { display: none; }
-    .cover img { width: 100%; height: 100%; object-fit: cover; }
+    
+    #coverArt[src=""] {
+      display: none;
+    }
+    
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
     .loading-overlay {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(0,0,0,0.5);
       z-index: 3;
       display: flex;
@@ -73,7 +114,12 @@
       justify-content: center;
       transition: opacity 1s ease;
     }
-    .loading-overlay.fade-out { opacity: 0; visibility: hidden; }
+    
+    .loading-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
     .i-arrows-rotate {
       width: 40px;
       height: 40px;
@@ -85,19 +131,43 @@
       color: white;
       animation: rotate 3s linear infinite;
     }
-    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+    
     .info {
       flex: 1;
       color: #fff;
       min-width: 200px;
       margin-top: 16px;
     }
-    .song-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 8px; }
-    .song-artist { font-size: 1rem; opacity: 0.9; margin-bottom: 4px; }
-    .song-album-year { font-size: 0.9rem; opacity: 0.8; }
+    
+    .song-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .song-artist {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 4px;
+    }
+    
+    .song-album-year {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
     .info .song-title,
     .info .song-artist,
-    .info .song-album-year { font-style: italic; opacity: 0.7; }
+    .info .song-album-year {
+      font-style: italic;
+      opacity: 0.7;
+    }
+    
     .player-bottom {
       background: #fff;
       display: flex;
@@ -105,6 +175,7 @@
       justify-content: space-around;
       padding: 12px;
     }
+    
     .play-btn {
       width: 44px;
       height: 44px;
@@ -117,26 +188,41 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .play-btn:hover { background: #b3c9ff; }
-    .play-btn svg { width: 24px; height: 24px; fill: #333; }
+    
+    .play-btn:hover {
+      background: #b3c9ff;
+    }
+    
+    .play-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: #333;
+    }
+    
     .volume-slider {
       flex: 1;
       max-width: 200px;
       margin: 0 16px;
     }
+    
     .volume-slider input[type="range"] {
       -webkit-appearance: none;
       width: 100%;
       background: transparent;
       cursor: pointer;
     }
-    .volume-slider input[type="range"]:focus { outline: none; }
+    
+    .volume-slider input[type="range"]:focus {
+      outline: none;
+    }
+    
     .volume-slider input[type="range"]::-webkit-slider-runnable-track {
       width: 100%;
       height: 8px;
       background: #ddd;
       border-radius: 4px;
     }
+    
     .volume-slider input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 20px;
@@ -146,12 +232,14 @@
       margin-top: -6px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
+    
     .volume-slider input[type="range"]::-moz-range-track {
       width: 100%;
       height: 8px;
       background: #ddd;
       border-radius: 4px;
     }
+    
     .volume-slider input[type="range"]::-moz-range-thumb {
       width: 20px;
       height: 20px;
@@ -159,19 +247,31 @@
       background: #a0c4ff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
+    
     @media (max-width: 480px) {
-      .player-top { justify-content: center; }
-      .cover { margin-right: 0; margin-bottom: 16px; }
-      .info { text-align: center; }
-      .player-bottom { flex-wrap: wrap; }
-      .volume-slider { margin-top: 8px; }
+      .player-top {
+        justify-content: center;
+      }
+      .cover {
+        margin-right: 0;
+        margin-bottom: 16px;
+      }
+      .info {
+        text-align: center;
+      }
+      .player-bottom {
+        flex-wrap: wrap;
+      }
+      .volume-slider {
+        margin-top: 8px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="player">
     <a href="https://japanisu.com" target="_blank" class="logo-link">
-      <svg fill="currentColor" viewBox="0 0 58 20" xmlns="http://www.w3.org/2000/svg">
+      <svg fill="white" viewBox="0 0 58 20" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 9a1 1 0 0 1-1-6q44-1 50 5Q35 7 6 9m46 2a1 1 0 0 1 1 6Q9 18 3 12q20 1 49-1"></path>
       </svg>
     </a>
@@ -206,7 +306,6 @@
   <audio id="audio" src="https://listen.japanisu.com/listen/japanisu/uradio.mp3" crossOrigin="anonymous"></audio>
   
   <script>
-    // Cambiamos la declaración a "let" para permitir reasignación
     let audio = document.getElementById('audio'),
         playBtn = document.getElementById('playBtn'),
         playIcon = document.getElementById('playIcon'),
