@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
-
-    /* Se asegura que html y body ocupen el 100% de la altura */
+    
     html, body {
       margin: 0;
       padding: 0;
@@ -25,7 +24,6 @@
       background: transparent;
     }
     
-    /* El contenedor principal ahora ocupa el 100% del espacio disponible y usa flexbox */
     .player {
       width: 100%;
       height: 100%;
@@ -52,7 +50,6 @@
       height: 20px;
     }
     
-    /* La sección superior se expande para ocupar el espacio disponible */
     .player-top {
       flex: 1;
       position: relative;
@@ -169,7 +166,6 @@
       opacity: 0.7;
     }
     
-    /* La sección inferior se mantiene en la parte baja */
     .player-bottom {
       background: #fff;
       display: flex;
@@ -250,22 +246,43 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
-    @media (max-width: 480px) {
+    /* Media query para pantallas pequeñas por ancho o altura reducidos:
+       Se oculta la carátula y se ajustan los tamaños de texto y controles */
+    @media (max-width: 480px), (max-height: 300px) {
+      .cover {
+        display: none;
+      }
       .player-top {
         justify-content: center;
-      }
-      .cover {
-        margin-right: 0;
-        margin-bottom: 16px;
+        padding: 12px;
       }
       .info {
         text-align: center;
+        margin-top: 0;
+        padding: 0 12px;
+      }
+      .song-title {
+        font-size: 1.2rem;
+      }
+      .song-artist {
+        font-size: 1rem;
+      }
+      .song-album-year {
+        font-size: 0.8rem;
       }
       .player-bottom {
-        flex-wrap: wrap;
+        padding: 8px;
+      }
+      .play-btn {
+        width: 36px;
+        height: 36px;
+      }
+      .play-btn svg {
+        width: 20px;
+        height: 20px;
       }
       .volume-slider {
-        margin-top: 8px;
+        max-width: 150px;
       }
     }
   </style>
